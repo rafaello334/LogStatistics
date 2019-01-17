@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body style="margin: 10px 10px 20px 10px">
+
+	<h2>Number of logs:</h2>
+	<h2 th:text="${size}"></h2>
+	
+	<table th:if="${logType} == 'Errors'" class="table">
+		  <col width="100">
+		<thead>
+			<tr>
+				<th>Number of occurs</th>
+				<th>Error message</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="instance : ${logMap}">
+				<td><span th:text="${instance.value}"></span></td>
+				<td><a class="btn btn-default" th:href = "@{/logDetails(totalNumber=${instance.value},logMessage=${instance.key.message})}" th:text="${instance.key.message}" ></a></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<table th:if="${logType} == 'Information'" class="table">
+		<col width="100">
+		
+		<thead>
+			<tr>
+				<th>Log Type</th>
+				<th>Error message</th>
+			</tr>
+		</thead>
+		<tbody style="border-top: 30px">
+			<tr th:each="log : ${logList}">
+				<td><span th:text="${log.logType}"></span></td>
+				<td><span th:text="${log.message}"></span></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<table th:if="${logType} == 'Exceptions'" class="table">
+		  <col width="100">
+		<thead>
+			<tr>
+				<th>Log Type</th>
+				<th>Exception name</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="instance : ${logExceptionMap}">
+				<td><span th:text="${instance.value}"></span></td>
+				<td><a class="btn btn-default" th:href = "@{/logExceptionDetails(totalNumber=${instance.value}, exceptionType=${instance.key.exceptionType})}" th:text="${instance.key.exceptionType}" ></a></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

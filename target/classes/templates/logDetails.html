@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+</head>
+<body>
+	<h2>Total number: <span th:text="${totalNumber}"></span></h2>
+	
+
+	<div id="container" style="min-width: 310px; height: 800px; margin: 0 auto"></div>
+
+	<script th:inline="javascript">
+		var dates = [[${dateSet}]];
+		var contentArray = convert([[${chartMap}]]);
+		Highcharts.chart('container', {
+		    chart: {
+		        type: 'column'
+		    },
+		    title: {
+		        text: "Log Details"
+		    },
+		    subtitle: {
+		        text: [[${logMessage}]]
+		    },
+		    xAxis: {
+		        type: 'category',
+		        labels: {
+		            rotation: -45,
+		            style: {
+		                fontSize: '13px',
+		                fontFamily: 'Verdana, sans-serif'
+		            }
+		        }
+		    },
+		    yAxis: {
+		        min: 0,
+		        title: {
+		            text: 'Number of occurs'
+		        }
+		    },
+		    legend: {
+		        enabled: false
+		    },
+		    series: [{
+		        name: 'Occurs',
+		        data: contentArray,
+		        dataLabels: {
+		            enabled: true,
+		            rotation: -90,
+		            color: '#FFFFFF',
+		            align: 'right',
+		            y: 10, // 10 pixels down from the top
+		            style: {
+		                fontSize: '13px',
+		                fontFamily: 'Verdana, sans-serif'
+		            }
+		        }
+		    }]
+		});
+		
+		
+		function convert(original) {
+		    var multiArray = [];
+		    for(var key in original) { multiArray.push([ key, original[key] ]); }
+		    return multiArray;
+		}
+	</script>
+	
+	
+</body>
+</html>
